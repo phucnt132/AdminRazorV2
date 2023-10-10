@@ -40,6 +40,4 @@ public partial class Movie
     public virtual User PostedByUserNavigation { get; set; }
 
     public virtual ICollection<Statistic> Statistics { get; set; } = new List<Statistic>();
-
-    public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
 }

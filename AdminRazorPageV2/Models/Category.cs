@@ -10,6 +10,4 @@ public partial class Category
     public string CategoryName { get; set; }
 
     public bool IsActive { get; set; }
-
-    public virtual ICollection<Movie> Movies { get; set; } = new List<Movie>();
 }
