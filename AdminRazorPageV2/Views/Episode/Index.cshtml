@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DTOs.EpisodeDTOs.ResponseDTO;
+@model IEnumerable<EpisodeResponse>
+
+@{
+    ViewData["Title"] = "Episode Page";
+}
+<p>@Html.ActionLink("Create", "Create")</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EpisodeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EpisodeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EpisodeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EpisodeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MediaLink)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.ActionLink("Detail", "Detail", new {  id=item.EpisodeId }) |
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.EpisodeId }) |
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.EpisodeId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
