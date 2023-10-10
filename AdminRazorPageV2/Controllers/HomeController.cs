@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text;
 using System.Drawing;
 using AdminRazorPageV2.Models;
+using Newtonsoft.Json.Linq;
 
 namespace HighFlixAdmin.Controllers
 {
@@ -21,7 +22,7 @@ namespace HighFlixAdmin.Controllers
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             ManagementApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "http://localhost:44388/api/Auth";
+            AuthApiUrl = "https://localhost:44300/api/Auth";
         }
         public IActionResult Index()
         {
@@ -61,6 +62,14 @@ namespace HighFlixAdmin.Controllers
                     HttpResponseMessage response = await _httpClient.PostAsync($"{AuthApiUrl}/login", content);
                     string userResponse = await response.Content.ReadAsStringAsync();
 
+
+                    // Parse the JSON string
+                    JObject jsonObject = JObject.Parse(userResponse);
+
+                    // Extract the accessToken and refreshToken
+                    string accessToken = jsonObject["accessToken"].ToString();
+                    string refreshToken = jsonObject["refreshToken"].ToString();
+
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
@@ -69,6 +78,10 @@ namespace HighFlixAdmin.Controllers
                     User mem = JsonSerializer.Deserialize<User>(userResponse, options);
                     if (response.IsSuccessStatusCode)
                     {
+                        HttpContext.Session.SetString("AccessToken", accessToken);
+                        HttpContext.Session.SetString("RefreshToken", refreshToken);
+                        HttpContext.Session.SetString("Username", user.Username);
+
                         return View("Index");
                     }
 
@@ -77,7 +90,6 @@ namespace HighFlixAdmin.Controllers
                         ModelState.AddModelError(string.Empty, "Invalid input data.");
                         return View("Index");
                     }
-
                     return View("Index");
                 }
                 catch (Exception)
