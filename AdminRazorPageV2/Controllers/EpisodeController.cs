@@ -4,6 +4,10 @@ using System.Net.Http.Headers;
 using System.Net;
 using System.Text.Json;
 using DTOs.ServiceResponseDTOs;
+using System.Text;
+using DTOs.EpisodeDTOs.RequestDTO;
+using AutoMapper;
+using AdminRazorPageV2.Models;
 
 namespace AdminRazorPageV2.Controllers
 {
@@ -13,8 +17,9 @@ namespace AdminRazorPageV2.Controllers
         private string ManagementApiUrl = "";
         private string EpisodeManagementApiUrl = "";
         private string AuthApiUrl = "";
-
-        public EpisodeController()
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _contextAccessor;
+        public EpisodeController(IMapper mapper, IHttpContextAccessor contextAccessor)
         {
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
@@ -22,7 +27,17 @@ namespace AdminRazorPageV2.Controllers
             ManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
             EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
+            _mapper = mapper;
+            _contextAccessor = contextAccessor;
         }
+
+        // Helper function: Get Session
+        public string GetSessionValue(String key)
+        {
+            var session = _contextAccessor.HttpContext.Session;
+            return session.GetString(key);
+        }
+
         // GET: All Episode
         public async Task<IActionResult> Index()
         {
@@ -88,6 +103,30 @@ namespace AdminRazorPageV2.Controllers
         public async Task<IActionResult> Create()
         {
             return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddEpisodeDto episode)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var episodeMap = _mapper.Map<AddEpisodeDto>(episode);
+                    var episodeJson = JsonSerializer.Serialize(episodeMap);
+                    var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                    HttpResponseMessage response = await _httpClient.PostAsync($"{EpisodeManagementApiUrl}/Create", content);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return View(episode);
         }
 
     }
