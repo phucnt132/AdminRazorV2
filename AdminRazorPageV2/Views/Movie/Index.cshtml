@@ -7,56 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MovieName)
-            </th>   
-            <th>
-                @Html.DisplayNameFor(model => model.MoviePoster)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalEpisodes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleasedYear)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieName)
-            </td>
-            <td>
-                <img style="width: 150px;" src=@Html.DisplayFor(modelItem => item.MoviePoster)>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalEpisodes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleasedYear)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
-
-                <div class="container-xl">
+<div class="container-xl">
 	<div class="table-responsive">
 		<div class="table-wrapper">
 			<div class="table-title" style="margin-bottom: 15px; padding: 16px; border-radius: 10px 10px 0px 0px;">
@@ -65,7 +16,7 @@
 						<h2>Manage <b>Movies</b></h2>
 					</div>
 					<div class="col-sm-5">
-						<a asp-action="Create" href="#addEmployeeModal" class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Movie</span></a>
+						<a href="#addEmployeeModal" class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Movie</span></a>
 						<a href="#deleteEmployeeModal" class="btn btn-danger; border-0" data-toggle="modal" style="background-color: cyan"><i class="material-icons">&#xE15C;</i> <span>Delete Movie</span></a>						
 					</div>
 				</div>
@@ -89,10 +40,10 @@
 							<td style="text-align: center">@Html.DisplayFor(modelItem => item.TotalEpisodes)</td>
 							<td>@Html.DisplayFor(modelItem => item.Director)</td>
 							<td style="text-align: center">@Html.DisplayFor(modelItem => item.ReleasedYear)</td>
-							<td>
+							<td style="display: inline-flex">
 								<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 								<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-								<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Detail">&#xE872;</i></a>
+								<a href="#deleteEmployeeModal" style="margin-left: 4px;" class="detail" data-toggle="modal"><i class="fa-solid fa-circle-info"></i></a>
 							</td>
 						</tr>
 					}
