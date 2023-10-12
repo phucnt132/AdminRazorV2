@@ -40,6 +40,13 @@ namespace AdminRazorPageV2.Controllers
             return session.GetString(key);
         }
 
+        // Error
+        public async Task<IActionResult> Error()
+        {
+            return View();
+        }
+
+
         // GET: All Episode
         public async Task<IActionResult> Index()
         {
@@ -107,6 +114,13 @@ namespace AdminRazorPageV2.Controllers
                     var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
 
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                   
+                    // Check Authorization
+                    if(_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
                     HttpResponseMessage response = await _httpClient.PostAsync($"{EpisodeManagementApiUrl}/Create", content);
                 }
                 catch (Exception)
@@ -161,6 +175,12 @@ namespace AdminRazorPageV2.Controllers
                 var episodeJson = JsonSerializer.Serialize(afterUpdate);
                 var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                // Check Authorization
+                if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                {
+                    ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                    return View("Error");
+                }
                 HttpResponseMessage response = await _httpClient.PutAsync($"{EpisodeManagementApiUrl}/Update", content);
                 string strData = await response.Content.ReadAsStringAsync();
 
@@ -218,6 +238,12 @@ namespace AdminRazorPageV2.Controllers
                     var episodeJson = JsonSerializer.Serialize(id);
                     var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                    // Check Authorization
+                    if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
                     HttpResponseMessage response = await _httpClient.PutAsync($"{EpisodeManagementApiUrl}/Delete?id={id}", content);
                 }
                 catch (Exception)
