@@ -5,7 +5,8 @@
 @{
     ViewData["Title"] = "Episode Page";
 }
-<p>@Html.ActionLink("Create", "Create")</p>
+
+@*<p>@Html.ActionLink("Create", "Create")</p>
 
 <table class="table">
     <thead>
@@ -62,4 +63,61 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-8">
+            <h2>Manage <b>Episode</b></h2>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><span>Add New Episode</span></a>
+            <a class="btn btn-danger; border-0" data-toggle="modal" style="background-color: cyan"><span>Delete Episode</span></a>
+        </div>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Episode Id</th>
+                <th>Episode Name</th>
+                <th>Movie Id</th>
+                <th>Description</th>
+                <th>MediaLink</th>
+                <th>IsActive</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EpisodeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EpisodeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MovieId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MediaLink)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detail", "Detail", new {  id=item.EpisodeId }) |
+                        @Html.ActionLink("Edit", "Edit", new {  id=item.EpisodeId }) |
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.EpisodeId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
