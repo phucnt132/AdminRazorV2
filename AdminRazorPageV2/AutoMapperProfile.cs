@@ -1,4 +1,5 @@
-﻿using AdminRazorPageV2.Models;
+﻿using DTOs.CategoryDTOs.ResponseDTOs;
+using AdminRazorPageV2.Models;
 using APIS.DTOs.MovieDTOs.RequestDto;
 using AutoMapper;
 using DTOs.EpisodeDTOs.RequestDTO;
@@ -23,6 +24,10 @@ namespace HighFlixAdmin
             CreateMap<AddEpisodeDto, Episode>();
             CreateMap<UpdateEpisodeDto, Episode>();
             CreateMap<DeleteEpisodeDto, Episode>();
+
+            //for category
+            CreateMap<CategoryResponse, Category>();
+            CreateMap<Category, CategoryResponse>();
         }
     }
 }
