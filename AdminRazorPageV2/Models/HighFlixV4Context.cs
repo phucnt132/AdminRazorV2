@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminRazorPageV2.Models;
 
-public partial class HighFlixContext : DbContext
+public partial class HighFlixV4Context : DbContext
 {
-    public HighFlixContext()
+    public HighFlixV4Context()
     {
     }
 
-    public HighFlixContext(DbContextOptions<HighFlixContext> options)
+    public HighFlixV4Context(DbContextOptions<HighFlixV4Context> options)
         : base(options)
     {
     }
@@ -33,7 +33,7 @@ public partial class HighFlixContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=DESKTOP-Q8AE83H; database=HighFlix;uid=sa;pwd=123456;Trusted_Connection=True;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("server=DESKTOP-Q8AE83H; database=HighFlix_v4;uid=sa;pwd=123456;Trusted_Connection=True;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,7 +81,7 @@ public partial class HighFlixContext : DbContext
 
         modelBuilder.Entity<Movie>(entity =>
         {
-            entity.HasKey(e => e.MovieId).HasName("PK__Movie__4BD2941A5EECEBE2");
+            entity.HasKey(e => e.MovieId).HasName("PK__Movie__4BD2941AB864E0F0");
 
             entity.ToTable("Movie");
 
@@ -119,7 +119,7 @@ public partial class HighFlixContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE1A9BE54298");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE1A2B6E133E");
 
             entity.ToTable("Role");
 
@@ -142,7 +142,7 @@ public partial class HighFlixContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4C3E44DD96");
+            entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4CD6205E43");
 
             entity.ToTable("User");
 

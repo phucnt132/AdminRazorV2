@@ -22,7 +22,7 @@ namespace HighFlixAdmin.Controllers
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             ManagementApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "https://localhost:44300/api/Auth";
+            AuthApiUrl = "http://localhost:44388/api/Auth";
         }
         public IActionResult Index()
         {
