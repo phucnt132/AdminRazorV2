@@ -114,8 +114,7 @@ namespace AdminRazorPageV2.Controllers
             {
                 try
                 {
-                    var episodeMap = _mapper.Map<AddEpisodeDto>(episode);
-                    var episodeJson = JsonSerializer.Serialize(episodeMap);
+                    var episodeJson = JsonSerializer.Serialize(episode);
                     var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
 
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
