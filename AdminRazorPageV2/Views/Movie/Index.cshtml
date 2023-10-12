@@ -1,26 +1,30 @@
-﻿@model IEnumerable<AdminRazorPageV2.Models.Movie>
+﻿@using Microsoft.AspNetCore.Http
+@using DTOs.MovieDTOs.ResponseDTO;
+@model IEnumerable<MovieResponse>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Episode Page";
 }
+<p>@Html.ActionLink("Create", "Create")</p>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
+      
             <th>
                 @Html.DisplayNameFor(model => model.MovieName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categories)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MovieThumnailImage)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MoviePoster)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListEpisode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalEpisodes)
@@ -47,62 +51,37 @@
                 @Html.DisplayNameFor(model => model.Comments)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostedByUserNavigation)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieThumnailImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoviePoster)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalEpisodes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleasedYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AliasName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Director)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MainCharacters)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trailer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostedByUserNavigation.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoviePoster)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoviePoster)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalEpisodes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleasedYear)
+                </td>
+                <td>
+                   @* @Html.ActionLink("Detail", "Detail", new {  id=item.EpisodeId }) |
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.EpisodeId }) |
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.EpisodeId })*@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
