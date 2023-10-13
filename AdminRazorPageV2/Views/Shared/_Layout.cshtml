@@ -41,6 +41,8 @@
 	        });
         });
 </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.semanticui.min.css">
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
@@ -99,6 +101,18 @@
     <script src="~/js/main.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.semanticui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
