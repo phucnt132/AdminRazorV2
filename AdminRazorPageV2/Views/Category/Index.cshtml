@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DTOs.CategoryDTOs.ResponseDTOs;
+@model IEnumerable<CategoryResponse>;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-10">
+            <h2>Manage <b>Categories</b></h2>
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><span>Add New Category</span></a>
+        </div>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>Category ID</th>
+                <th>Category Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                    <td>
+                        @Html.ActionLink("Detail", "Detail", new {  id=item.CategoryId }) |
+                        @Html.ActionLink("Edit", "Edit", new {  id=item.CategoryId }) |
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.CategoryId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

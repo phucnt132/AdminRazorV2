@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DTOs.MovieDTOs.ResponseDTO;
+@model IEnumerable<MovieResponse>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-10">
+            <h2>Manage <b>Movies</b></h2>
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><span>Add New Movie</span></a>
+        </div>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>Movie ID</th>
+                <th>Movie Name</th>
+                <th>Movie Poster</th>
+                <th>Total Episodes</th>
+                <th>ReleasedYear</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.MovieId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MovieName)</td>
+                    <td><img style="width: 120px;" src=@Html.DisplayFor(modelItem => item.MoviePoster)></td>
+                    <td>@Html.DisplayFor(modelItem => item.TotalEpisodes)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ReleasedYear)</td>
+                    <td>
+                        @Html.ActionLink("Detail", "Detail", new {  id=item.MovieId }) |
+                        @Html.ActionLink("Edit", "Edit", new {  id=item.MovieId }) |
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.MovieId })
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
