@@ -29,7 +29,7 @@ namespace AdminRazorPageV2.Controllers
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             ManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
-            CategoryManagementApiUrl = "http://localhost:44384/api/Categories";
+            CategoryManagementApiUrl = "http://localhost:44386/api/Categories";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
