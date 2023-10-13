@@ -1,10 +1,16 @@
-﻿using AutoMapper;
+﻿using AdminRazorPageV2.Models;
+using AutoMapper;
 using CategoryServices.DTOs.ResponseDTO;
+using DTOs.EpisodeDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
+using DTOs.MovieDTOs.RequestDto;
 using DTOs.MovieDTOs.ResponseDTO;
 using DTOs.ServiceResponseDTOs;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.DependencyResolver;
+using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace AdminRazorPageV2.Controllers
@@ -91,6 +97,164 @@ namespace AdminRazorPageV2.Controllers
                 return NotFound();
             }
 
+            return View(movieResponse.Data);
+        }
+
+        //GET: Movie/Create
+        public async Task<IActionResult> Create()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}");
+            string strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            ServiceResponse<List<CategoryResponse>> category = JsonSerializer.Deserialize<ServiceResponse<List<CategoryResponse>>>(strData, options);
+            IEnumerable<CategoryResponse> categories = category.Data;
+
+            ViewBag.Categories = categories;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddMovieDto movie)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var movieJson = JsonSerializer.Serialize(movie);
+                    var content = new StringContent(movieJson, Encoding.UTF8, "application/json");
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+
+                    // Check Authorization
+                    if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
+                    HttpResponseMessage response = await _httpClient.PostAsync($"{ManagementApiUrl}/Create", content);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        //GET: Movie/Edit
+        public async Task<IActionResult> Edit(int? id)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}");
+            string strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            ServiceResponse<List<CategoryResponse>> category = JsonSerializer.Deserialize<ServiceResponse<List<CategoryResponse>>>(strData, options);
+            IEnumerable<CategoryResponse> categories = category.Data;
+
+            ViewBag.Categories = categories;
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            response = await _httpClient.GetAsync($"{ManagementApiUrl}/id?id={id}");
+
+            // loaded movie data
+            strData = await response.Content.ReadAsStringAsync();
+
+            options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<MovieResponse> movieResponse = JsonSerializer.Deserialize<ServiceResponse<MovieResponse>>(strData, options);
+
+            UpdateMovieDto updateMovie = new UpdateMovieDto { 
+                MovieId = movieResponse.Data.MovieId,
+                MovieName = movieResponse.Data.MovieName,
+                Categories = movieResponse.Data.Categories.Select(int.Parse).ToList(),
+                MovieThumnailImage = movieResponse.Data.MovieThumnailImage,
+                MoviePoster = movieResponse.Data.MoviePoster,
+                TotalEpisodes = movieResponse.Data.TotalEpisodes,
+                Description = movieResponse.Data.Description,
+                ReleasedYear = movieResponse.Data.ReleasedYear,
+                AliasName = movieResponse.Data.AliasName,
+                Director = movieResponse.Data.Director,
+                MainCharacters = movieResponse.Data.MainCharacters,
+                Trailer = movieResponse.Data.Trailer,
+            };
+
+            if (updateMovie == null)
+            {
+                return NotFound();
+            }
+
+            return View(updateMovie);
+        }
+
+        // POST: Movie/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, UpdateMovieDto movie)
+        {
+            ServiceResponse<MovieResponse> movieResponse;
+            try
+            {
+                var movieJson = JsonSerializer.Serialize(movie);
+                var content = new StringContent(movieJson, Encoding.UTF8, "application/json");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                // Check Authorization
+                if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                {
+                    ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                    return View("Error");
+                }
+                HttpResponseMessage response = await _httpClient.PutAsync($"{ManagementApiUrl}/Update", content);
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                movieResponse = JsonSerializer.Deserialize<ServiceResponse<MovieResponse>>(strData, options);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{ManagementApiUrl}/id?id={id}");
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<MovieResponse> movieResponse = JsonSerializer.Deserialize<ServiceResponse<MovieResponse>>(strData, options);
+
+            if (movieResponse == null)
+            {
+                return NotFound();
+            }
+
             for (int i = 0; i < movieResponse.Data.Categories.Count; i++)
             {
                 var category = movieResponse.Data.Categories[i];
@@ -111,6 +275,34 @@ namespace AdminRazorPageV2.Controllers
             }
 
             return View(movieResponse.Data);
+        }
+
+        // POST: Movie/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var movieJson = JsonSerializer.Serialize(id);
+                    var content = new StringContent(movieJson, Encoding.UTF8, "application/json");
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                    // Check Authorization
+                    if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{ManagementApiUrl}/Delete?id={id}", content);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }

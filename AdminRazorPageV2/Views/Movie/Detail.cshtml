@@ -94,9 +94,9 @@
             <!-- Head -->
             <div class="ui-head">
                 <!-- Background Image -->
-                <img src="@Model.MoviePoster" alt="" class="img-responsive bg-img" style="width: 1000px;height: 600px">
+                <img src="@Model.MoviePoster" alt="" class="img-responsive bg-img" style="width: 950px;height: 600px">
                 <!-- Transparent Background -->
-                <div class="ui-trans clearfix" style="width: 1000px;">
+                <div class="ui-trans clearfix" style="width: 950px;">
                     <!-- Image -->
                     <img src="@Model.MovieThumnailImage" alt="" class="img-responsive" style="margin-left: 50px;margin-top: 50px;height: 300px">
                     <!-- Details -->
@@ -122,7 +122,7 @@
                                         @Html.Raw(Model.Description.Substring(200))
                                     </span>
                                     <span id="dot" style="font-size:14px;">...</span>
-                                    <span style="font-size:14px;"><a href="#" id="toggle-description" style="color: #c2ddff">Xem thêm</a></span>
+                                    <span style="font-size:14px;"><a href="#" id="toggle-description" style="color: #c2ddff">See more</a></span>
                                 </div>
                             }
                             else
@@ -156,7 +156,9 @@
         </div>
     </div>
 </div>
-
+<div style="margin:10px 30px;">
+    <a type="button" class="btn btn-primary" asp-action="Index">Back to list</a>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const toggleButton = document.querySelector("#toggle-description");
@@ -169,11 +171,11 @@
                 e.preventDefault();
                 if (fullDescription.style.display === "none") {
                     fullDescription.style.display = "inline"; // Hiển thị nội dung đầy đủ
-                    toggleButton.textContent = "Thu gọn"; // Thay đổi nút thành "Thu gọn"
+                    toggleButton.textContent = "See less"; // Thay đổi nút thành "Thu gọn"
                     dot.style.display = "none";
                 } else {
                     fullDescription.style.display = "none"; // Ẩn nội dung đầy đủ
-                    toggleButton.textContent = "Xem thêm"; // Thay đổi nút thành "Xem thêm"
+                    toggleButton.textContent = "See more"; // Thay đổi nút thành "Xem thêm"
                     dot.style.display = "inline";
                 }
             });
