@@ -1,0 +1,183 @@
+﻿@using DTOs.MovieDTOs.ResponseDTO;
+@model MovieResponse
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detail</h1>
+
+
+@*<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MovieName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MovieName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MovieThumnailImage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MovieThumnailImage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MoviePoster)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MoviePoster)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalEpisodes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TotalEpisodes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleasedYear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReleasedYear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AliasName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AliasName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Director)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Director)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MainCharacters)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MainCharacters)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Trailer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Trailer)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MovieId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+*@
+
+
+<div class="movie-ticket">
+    <div class="container-fluid">
+        <!-- Item -->
+        <div class="ui-item movie-ticket container-fluid">
+            <!-- Head -->
+            <div class="ui-head">
+                <!-- Background Image -->
+                <img src="@Model.MoviePoster" alt="" class="img-responsive bg-img" style="width: 1000px;height: 600px">
+                <!-- Transparent Background -->
+                <div class="ui-trans clearfix" style="width: 1000px;">
+                    <!-- Image -->
+                    <img src="@Model.MovieThumnailImage" alt="" class="img-responsive" style="margin-left: 50px;margin-top: 50px;height: 300px">
+                    <!-- Details -->
+                    <div class="ui-details clearfix" style="margin-top: 50px;">
+                        <!-- Movie Name -->
+                        <h2 style="color: white;">@Model.MovieName</h2>
+                        <!-- Labels -->
+                        @foreach(var model in Model.Categories)
+                        {
+                            <a href="#" class="label" style="color: #95F0F3">@Html.DisplayFor(modelItem => model)</a>
+                        }
+                        <!-- Paragraph -->
+                        @*<p>@Model.Description</p>*@
+                        <!-- Phần hiển thị văn bản ban đầu (có giới hạn) -->
+                        <div id="description-container" style="color: white;">
+                            @if (Model.Description.Length > 200)
+                            {
+                                <div style="display: inline;">
+                                    <span id="short-description">
+                                        @Html.Raw(Model.Description.Substring(0, 200))
+                                    </span>
+                                    <span id="full-description" style="display: none;">
+                                        @Html.Raw(Model.Description.Substring(200))
+                                    </span>
+                                    <span id="dot" style="font-size:14px;">...</span>
+                                    <span style="font-size:14px;"><a href="#" id="toggle-description" style="color: #c2ddff">Xem thêm</a></span>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.Description)
+                            }
+                        </div>
+                        <!-- Heading -->
+                        <h4><span>Alias name</span>:</h4>
+                        <!-- Alias name -->
+                        <h5><a href="#">@Model.AliasName</a></h5>
+                        <!-- Heading -->
+                        <h4><span>Episode</span>:</h4>
+                        <!-- Total episode -->
+                        <h5><a href="#">@Model.TotalEpisodes</a></h5>
+                        <!-- Heading -->
+                        <h4><span>Released</span>:</h4>
+                        <!-- Released year -->
+                        <h5><a href="#">@Model.ReleasedYear</a></h5>
+                        <!-- Heading -->
+                        <h4><span>Director</span>:</h4>
+                        <!-- Director Name -->
+                        <h5><a href="#">@Model.Director</a></h5>
+                        <!-- Heading -->
+                        <h4><span>Main character</span>:</h4>
+                        <!-- Writers -->
+                        <h5><a href="#"> @Model.MainCharacters</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.querySelector("#toggle-description");
+        const shortDescription = document.querySelector("#short-description");
+        const fullDescription = document.querySelector("#full-description");
+        const dot = document.querySelector("#dot");
+
+        if (toggleButton) {
+            toggleButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (fullDescription.style.display === "none") {
+                    fullDescription.style.display = "inline"; // Hiển thị nội dung đầy đủ
+                    toggleButton.textContent = "Thu gọn"; // Thay đổi nút thành "Thu gọn"
+                    dot.style.display = "none";
+                } else {
+                    fullDescription.style.display = "none"; // Ẩn nội dung đầy đủ
+                    toggleButton.textContent = "Xem thêm"; // Thay đổi nút thành "Xem thêm"
+                    dot.style.display = "inline";
+                }
+            });
+        }
+    });
+</script>
+

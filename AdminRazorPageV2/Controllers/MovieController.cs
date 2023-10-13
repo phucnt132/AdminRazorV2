@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CategoryServices.DTOs.ResponseDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
 using DTOs.MovieDTOs.ResponseDTO;
 using DTOs.ServiceResponseDTOs;
@@ -13,6 +14,7 @@ namespace AdminRazorPageV2.Controllers
         private readonly HttpClient _httpClient = null;
         private string ManagementApiUrl = "";
         private string EpisodeManagementApiUrl = "";
+        private string CategoryManagementApiUrl = "";
         private string AuthApiUrl = "";
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _contextAccessor;
@@ -21,9 +23,10 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            ManagementApiUrl = "http://localhost:7113/api/Movies";
+            ManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
             EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
+            CategoryManagementApiUrl = "http://localhost:44386/api/Categories";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
@@ -64,6 +67,50 @@ namespace AdminRazorPageV2.Controllers
             {
                 throw ex;
             }
+        }
+
+        // GET: Movie by Id
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{ManagementApiUrl}/id?id={id}");
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<MovieResponse> movieResponse = JsonSerializer.Deserialize<ServiceResponse<MovieResponse>>(strData, options);
+
+            if (movieResponse == null)
+            {
+                return NotFound();
+            }
+
+            for (int i = 0; i < movieResponse.Data.Categories.Count; i++)
+            {
+                var category = movieResponse.Data.Categories[i];
+                response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}/id?id={int.Parse(category)}");
+                strData = await response.Content.ReadAsStringAsync();
+
+                options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                ServiceResponse<CategoryResponse> categoryResponse = JsonSerializer.Deserialize<ServiceResponse<CategoryResponse>>(strData, options);
+
+                var newCategory = categoryResponse.Data.CategoryName;
+
+                // Gán lại giá trị của category bằng giá trị mới
+                movieResponse.Data.Categories[i] = newCategory;
+            }
+
+            return View(movieResponse.Data);
         }
     }
 }

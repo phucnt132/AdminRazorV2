@@ -65,7 +65,6 @@
 						<h2>Manage <b>Movies</b></h2>
 					</div>
 					<div class="col-sm-5">
-						<a asp-action="Create" href="#addEmployeeModal" class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Movie</span></a>
 						<a href="#deleteEmployeeModal" class="btn btn-danger; border-0" data-toggle="modal" style="background-color: cyan"><i class="material-icons">&#xE15C;</i> <span>Delete Movie</span></a>						
 					</div>
 				</div>
@@ -93,6 +92,8 @@
 								<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 								<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
 								<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Detail">&#xE872;</i></a>
+
+									@Html.ActionLink("Detail", "Detail", new {  id=item.MovieId }) |
 							</td>
 						</tr>
 					}
