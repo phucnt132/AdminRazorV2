@@ -21,8 +21,8 @@ namespace HighFlixAdmin.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            ManagementApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "http://localhost:44388/api/Auth";
+            ManagementApiUrl = "http://localhost:7113/api/Movies";
+            AuthApiUrl = "http://localhost:7111/api/Auth";
         }
         public IActionResult Index()
         {
@@ -81,6 +81,7 @@ namespace HighFlixAdmin.Controllers
                         HttpContext.Session.SetString("AccessToken", accessToken);
                         HttpContext.Session.SetString("RefreshToken", refreshToken);
                         HttpContext.Session.SetString("Username", user.Username);
+                        HttpContext.Session.SetInt32("UserId", user.UserId);
 
                         return View("Index");
                     }
