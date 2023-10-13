@@ -12,6 +12,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace AdminRazorPageV2.Controllers
 {
@@ -125,6 +126,7 @@ namespace AdminRazorPageV2.Controllers
             {
                 try
                 {
+                    movie.PostedByUser = (int)HttpContext.Session.GetInt32("UserId");
                     var movieJson = JsonSerializer.Serialize(movie);
                     var content = new StringContent(movieJson, Encoding.UTF8, "application/json");
 
