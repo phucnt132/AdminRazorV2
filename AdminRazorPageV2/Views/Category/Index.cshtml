@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
-@using DTOs.CategoryDTOs.ResponseDTOs;
+@using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
 @model IEnumerable<CategoryResponse>;
 
 @{
@@ -29,8 +29,8 @@
             @foreach (var item in Model)
             {
         <tr>
-                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryName)</td>
                     <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryName)</td>         
             <td>
                         @Html.ActionLink("Detail", "Detail", new {  id=item.CategoryId }) |
                         @Html.ActionLink("Edit", "Edit", new {  id=item.CategoryId }) |
