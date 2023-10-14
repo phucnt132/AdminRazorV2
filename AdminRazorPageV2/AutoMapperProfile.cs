@@ -1,4 +1,5 @@
-﻿using DTOs.CategoryDTOs.ResponseDTOs;
+﻿using AdminRazorPageV2.DTOs.CategoryDtos.RequestDTO;
+using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
 using AdminRazorPageV2.Models;
 using APIS.DTOs.MovieDTOs.RequestDto;
 using AutoMapper;
@@ -28,6 +29,9 @@ namespace HighFlixAdmin
             //for category
             CreateMap<CategoryResponse, Category>();
             CreateMap<Category, CategoryResponse>();
+            CreateMap<AddCategoryDto, Category>();
+            CreateMap<UpdateCategoryDto, Category>();
+            CreateMap<DeleteCategoryDto, Category>();
         }
     }
 }
