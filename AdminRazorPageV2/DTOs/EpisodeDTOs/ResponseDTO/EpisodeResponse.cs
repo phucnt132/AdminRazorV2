@@ -6,6 +6,8 @@
 
         public int MovieId { get; set; }
 
+        public string? MovieName { get; set; }
+
         public string EpisodeName { get; set; } = null!;
 
         public string Description { get; set; } = null!;
