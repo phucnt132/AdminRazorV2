@@ -36,11 +36,22 @@
                     <a asp-controller="Category" asp-action="Index">Category Management</a>
                 </li>
                 <li>
-                    <a asp-controller="Account" asp-action="Index">Account Management</a>
+                    <a asp-controller="User" asp-action="Index">User Management</a>
                 </li>
-                <li>
-                    <a asp-controller="Home" asp-action="Login">Login</a>
-                </li>
+                @{
+                    if (Context.Session.GetString("Username") != null)
+                    {
+                        <li>
+                            <a asp-controller="Home" asp-action="Logout">Logout</a>
+                        </li>
+                    } else
+                    {
+                        <li>
+                            <a asp-controller="Home" asp-action="Login">Login</a>
+                        </li>
+                    }
+                }
+                
             </ul>
 
         </nav>
