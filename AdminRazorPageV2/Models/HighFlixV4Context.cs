@@ -87,7 +87,6 @@ public partial class HighFlixV4Context : DbContext
 
             entity.Property(e => e.Description).IsRequired();
             entity.Property(e => e.Director).HasMaxLength(50);
-            entity.Property(e => e.MovieName).IsRequired();
             entity.Property(e => e.MoviePoster).IsRequired();
             entity.Property(e => e.MovieThumnailImage).IsRequired();
             entity.Property(e => e.ReleasedYear)

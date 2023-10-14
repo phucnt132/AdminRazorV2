@@ -10,13 +10,15 @@ using AutoMapper;
 using AdminRazorPageV2.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using DTOs.MovieDTOs.ResponseDTO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdminRazorPageV2.Controllers
 {
     public class EpisodeController : Controller
     {
         private readonly HttpClient _httpClient = null;
-        private string ManagementApiUrl = "";
+        private string MovieManagementApiUrl = "";
         private string EpisodeManagementApiUrl = "";
         private string AuthApiUrl = "";
         private readonly IMapper _mapper;
@@ -26,7 +28,7 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            ManagementApiUrl = "http://localhost:44384/api/Movies";
+            MovieManagementApiUrl = "http://localhost:7113/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
             EpisodeManagementApiUrl = "http://localhost:7113/api/Episodes";
             _mapper = mapper;
@@ -34,7 +36,7 @@ namespace AdminRazorPageV2.Controllers
         }
 
         // Helper function: Get Session
-        public string GetSessionValue(String key)
+        public string GetSessionValue(string key)
         {
             var session = _contextAccessor.HttpContext.Session;
             return session.GetString(key);
@@ -53,7 +55,10 @@ namespace AdminRazorPageV2.Controllers
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(EpisodeManagementApiUrl);
+                HttpResponseMessage movieResponse = await _httpClient.GetAsync(MovieManagementApiUrl);
+                
                 string strData = await response.Content.ReadAsStringAsync();
+                string movieStrData = await movieResponse.Content.ReadAsStringAsync();
 
                 var options = new JsonSerializerOptions
                 {
@@ -61,6 +66,16 @@ namespace AdminRazorPageV2.Controllers
                 };
 
                 ServiceResponse<List<EpisodeResponse>> listEpisodes = JsonSerializer.Deserialize<ServiceResponse<List<EpisodeResponse>>>(strData, options);
+                ServiceResponse<List<MovieResponse>> listMovies = JsonSerializer.Deserialize<ServiceResponse<List<MovieResponse>>>(movieStrData, options);
+                // Get MovieId of Episode base on MovieId of Movie
+                var movieLookup = listMovies.Data.ToDictionary(m => m.MovieId, m => m.MovieName);
+                if (listEpisodes != null)
+                {
+                    foreach (var episode in listEpisodes.Data)
+                    {
+                        episode.MovieName = movieLookup[episode.MovieId];
+                    }
+                }
                 IEnumerable<EpisodeResponse> episodeResponses = listEpisodes.Data;
                 return View(episodeResponses);
 
@@ -99,6 +114,16 @@ namespace AdminRazorPageV2.Controllers
         // GET: Create Episode
         public async Task<IActionResult> Create()
         {
+            HttpResponseMessage movieResponse = await _httpClient.GetAsync(MovieManagementApiUrl);
+            string movieStrData = await movieResponse.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<List<MovieResponse>> listMovies = JsonSerializer.Deserialize<ServiceResponse<List<MovieResponse>>>(movieStrData, options);
+            ViewBag.MovieData = listMovies.Data;
             return View();
         }
 
