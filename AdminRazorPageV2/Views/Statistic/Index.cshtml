@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AdminRazorPageV2.DTOs.StatisticDTO.ResponseDTO.StatisticResponse>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-10">
+            <h2>Manage <b>Movies</b></h2>
+        </div>
+        
+    </div>
+    <div>
+        <form asp-action="StatictisByDate" id="myForm">
+            <label for="startDate">Date start:</label>
+            <input type="datetime-local" name="StartDate" id="dateStart">
+            <label for="endDate">Date End:</label>
+            <input type="datetime-local" name="EndDate" id="dateEnd">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+                <tr style ="text-align: center">
+                <th>
+                        @Html.DisplayNameFor(model => model.MovieName)
+                </th>
+                <th>
+                        @Html.DisplayNameFor(model => model.MovieThumnailImage)
+                </th>
+                <th>
+                        @Html.DisplayNameFor(model => model.ReleasedYear)
+                </th>
+                <th>
+                        @Html.DisplayNameFor(model => model.View)
+                </th>
+            </tr>
+        </thead>
+        </thead>
+        <tbody style="text-align: center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MovieName)
+                    </td>
+                    <td>
+                        <img style="width: 300px;" src="@Html.DisplayFor(modelItem => item.MovieThumnailImage)" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleasedYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.View)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    const myForm = document.getElementById("myForm");
+    const dateStartInput = document.getElementById("dateStart");
+    const dateEndInput = document.getElementById("dateEnd");
+
+    myForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Lấy giá trị từ input fields
+        const dateStartValue = new Date(dateStartInput.value);
+        const dateEndValue = new Date(dateEndInput.value);
+
+        // Kiểm tra điều kiện
+        if (dateEndValue < dateStartValue) {
+            // Gán giá trị của dateStart cho dateEnd
+            dateEndInput.value = dateStartInput.value;
+        }
+
+        // Tiếp tục với việc gửi form (hoặc thực hiện xử lý khác nếu cần)
+        myForm.submit();
+    });
+</script>

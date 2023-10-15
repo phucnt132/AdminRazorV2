@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HighFlix Admin</title>
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/style.css"/>
+    <link rel="stylesheet" href="~/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.semanticui.min.css">
 </head>
@@ -26,32 +26,36 @@
                 <li>
                     <a asp-controller="Home" asp-action="Index">Home</a>
                 </li>
-                <li>
-                    <a asp-controller="Episode" asp-action="Index">Episode Management</a>
-                </li>
-                <li>
-                    <a asp-controller="Movie" asp-action="Index">Movie Management</a>
-                </li>
-                <li>
-                    <a asp-controller="Category" asp-action="Index">Category Management</a>
-                </li>
-                <li>
-                    <a asp-controller="User" asp-action="Index">User Management</a>
-                </li>
                 @{
                     if (Context.Session.GetString("Username") != null)
                     {
                         <li>
+                            <a asp-controller="Episode" asp-action="Index">Episode Management</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Movie" asp-action="Index">Movie Management</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Category" asp-action="Index">Category Management</a>
+                        </li>
+                        <li>
+                            <a asp-controller="User" asp-action="Index">User Management</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Statistic" asp-action="Index">Statistic Management</a>
+                        </li>
+                        <li>
                             <a asp-controller="Home" asp-action="Logout">Logout</a>
                         </li>
-                    } else
+                    }
+                    else
                     {
                         <li>
                             <a asp-controller="Home" asp-action="Login">Login</a>
                         </li>
                     }
                 }
-                
+
             </ul>
 
         </nav>
@@ -71,7 +75,7 @@
             </footer>
         </div>
     </div>
-    
+
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/popper.js"></script>
     <script src="~/js/main.js"></script>
