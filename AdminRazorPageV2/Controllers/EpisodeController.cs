@@ -28,7 +28,7 @@ namespace AdminRazorPageV2.Controllers
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             ManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
-            EpisodeManagementApiUrl = "http://localhost:7113/api/Episodes";
+            EpisodeManagementApiUrl = "http://localhost:44386/api/Episodes";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
