@@ -169,7 +169,9 @@ namespace AdminRazorPageV2.Controllers
             ServiceResponse<CategoryResponse> categoryResponse;
             try
             {
+                afterUpdate.CategoryId = id;
                 afterUpdate.CategoryName = category.CategoryName;
+                afterUpdate.IsActive = category.IsActive;
                 var categoryJson = JsonSerializer.Serialize(afterUpdate);
                 var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));

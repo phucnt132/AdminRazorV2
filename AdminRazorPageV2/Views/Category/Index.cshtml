@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿ @using Microsoft.AspNetCore.Http
 @using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
 @model IEnumerable<CategoryResponse>;
 
@@ -13,8 +13,9 @@
             <h2>Manage <b>Categories</b></h2>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><span>Add New Category</span></a>
+            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"> <span>@Html.ActionLink("Add new Category", "Create")</span></a>
         </div>
+
     </div>
 
     <table id="example" class="ui celled table" style="width:100%">

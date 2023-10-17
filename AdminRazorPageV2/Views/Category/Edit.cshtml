@@ -1,9 +1,9 @@
-﻿@using Microsoft.AspNetCore.Http
-@using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
-@model CategoryResponse
+﻿@using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
+@model CategoryResponse;
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Edit</h1>
@@ -37,5 +37,6 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
