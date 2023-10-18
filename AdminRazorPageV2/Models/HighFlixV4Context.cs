@@ -32,12 +32,8 @@ public partial class HighFlixV4Context : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-<<<<<<< HEAD
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=VINHHUNG; database=HighFlixDB_v4;uid=sa;pwd=123456;Trusted_Connection=True;TrustServerCertificate=true");
-=======
         => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database=HighFlix_v4;uid=sa;pwd=123456;Trusted_Connection=True;TrustServerCertificate=true");
->>>>>>> quynhnn
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
