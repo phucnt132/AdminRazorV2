@@ -107,34 +107,10 @@ namespace HighFlixAdmin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult Logout()
         {
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "your_token_here");
-
-                var request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(AuthApiUrl)
-                };
-
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "your_token_here");
-
-                var response = await httpClient.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // Xử lý dữ liệu trả về
-                }
-                else
-                {
-                    // Xử lý lỗi
-                }
-            }
-
-            return View();
+            HttpContext.Session.Clear();
+            return View("Index");
         }
-
     }
 }
