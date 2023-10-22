@@ -166,7 +166,7 @@ namespace AdminRazorPageV2.Controllers
             {
                 return NotFound();
             }
-            response = await _httpClient.GetAsync($"{ManagementApiUrl}/id?id={id}");
+            response = await _httpClient.GetAsync($"{ManagementApiUrl}/update/id?id={id}");
 
             // loaded movie data
             strData = await response.Content.ReadAsStringAsync();
@@ -242,7 +242,7 @@ namespace AdminRazorPageV2.Controllers
             {
                 return NotFound();
             }
-            HttpResponseMessage response = await _httpClient.GetAsync($"{ManagementApiUrl}/id?id={id}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{ManagementApiUrl}/update/id?id={id}");
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
