@@ -5,6 +5,8 @@ using AutoMapper;
 using DTOs.EpisodeDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
 using DTOs.MovieDTOs.ResponseDTO;
+using DTOs.CommentDTOs.ResponseDTO;
+using DTOs.CommentDTOs.RequestDTO;
 
 namespace HighFlixAdmin
 {
@@ -28,6 +30,11 @@ namespace HighFlixAdmin
             //for category
             CreateMap<CategoryResponse, Category>();
             CreateMap<Category, CategoryResponse>();
+
+            //for comment
+            CreateMap<CommentResponse, Comment>();
+            CreateMap<Comment, CommentResponse>();
+            CreateMap<DeleteCommentDto, Comment>();
         }
     }
 }

@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Http
+@using DTOs.CommentDTOs.ResponseDTO;
+@model IEnumerable<CommentResponse>;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-10">
+            <h2>Manage <b>Comments</b></h2>
+        </div>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>Comment ID</th>
+                <th>User ID</th>
+                <th>Movie ID</th>
+                <th>Comment Content</th>
+                <th>Commented Date</th>
+                <th>Rating</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.CommentId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UserId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MovieId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CommentContent)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CommentedDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.CommentId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

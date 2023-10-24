@@ -25,7 +25,7 @@ namespace AdminRazorPageV2.Controllers
             ManagementApiUrl = "http://localhost:7113/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
             EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
-            CategoryManagementApiUrl = "http://localhost:7112/api/Categories";
+            CategoryManagementApiUrl = "http://localhost:44386/api/Categories";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
