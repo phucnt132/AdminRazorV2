@@ -28,7 +28,7 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            MovieManagementApiUrl = "http://localhost:7113/api/Movies";
+            MovieManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
             EpisodeManagementApiUrl = "http://localhost:44386/api/Episodes";
             _mapper = mapper;
