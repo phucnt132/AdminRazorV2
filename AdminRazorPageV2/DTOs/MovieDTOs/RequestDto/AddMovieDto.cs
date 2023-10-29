@@ -1,4 +1,4 @@
-﻿namespace APIS.DTOs.MovieDTOs.RequestDto
+﻿namespace DTOs.MovieDTOs.RequestDto
 {
     public class AddMovieDto
     {
@@ -12,8 +12,6 @@
 
         public string MoviePoster { get; set; } = null!;
 
-        public string? ListEpisode { get; set; }
-
         public int? TotalEpisodes { get; set; }
 
         public string Description { get; set; } = null!;
@@ -26,6 +24,6 @@
 
         public string? MainCharacters { get; set; }
 
-        public byte[]? Trailer { get; set; }
+        public string? Trailer { get; set; }
     }
 }

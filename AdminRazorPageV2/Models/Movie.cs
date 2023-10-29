@@ -9,8 +9,6 @@ public partial class Movie
 
     public int PostedByUser { get; set; }
 
-    public string MovieName { get; set; }
-
     public string MovieThumnailImage { get; set; }
 
     public string MoviePoster { get; set; }
