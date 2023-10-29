@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http
+@using AdminRazorPageV2.DTOs.UserDTOs.ResponseDTO
+@model IEnumerable<UserResponse>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mt-5">
+    <div class="row mb-5">
+        <div class="col-sm-10">
+            <h2>Manage <b>Users</b></h2>
+        </div>
+    </div>
+
+    <table id="example" class="ui celled table" style="width:100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Avatar</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td><img style="width: 120px;" src=@Html.DisplayFor(modelItem => item.Avatar)></td>
+                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RoleName)</td>
+                    <td>
+                        @Html.ActionLink("Detail", "Detail", new {  id=item.UserId }) |
+                        @* @Html.ActionLink("Edit", "Edit", new {  id=item.UserId }) |  *@
+                        @Html.ActionLink("Delete", "Delete", new {  id=item.UserId })
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
