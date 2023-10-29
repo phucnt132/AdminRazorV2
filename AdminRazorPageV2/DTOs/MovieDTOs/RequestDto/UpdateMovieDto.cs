@@ -1,10 +1,10 @@
-﻿namespace APIS.DTOs.MovieDTOs.RequestDto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DTOs.MovieDTOs.RequestDto
 {
     public class UpdateMovieDto
     {
         public int MovieId { get; set; }
-
-        public int PostedByUser { get; set; }
 
         public string MovieName { get; set; } = null!;
 
@@ -13,8 +13,6 @@
         public string MovieThumnailImage { get; set; } = null!;
 
         public string MoviePoster { get; set; } = null!;
-
-        public string? ListEpisode { get; set; }
 
         public int? TotalEpisodes { get; set; }
 
@@ -28,6 +26,6 @@
 
         public string? MainCharacters { get; set; }
 
-        public byte[]? Trailer { get; set; }
+        public string? Trailer { get; set; }
     }
 }
