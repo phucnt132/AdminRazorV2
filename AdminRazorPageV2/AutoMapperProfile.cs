@@ -1,6 +1,6 @@
 ﻿using DTOs.CategoryDTOs.ResponseDTOs;
 using AdminRazorPageV2.Models;
-using APIS.DTOs.MovieDTOs.RequestDto;
+using DTOs.MovieDTOs.RequestDto;
 using AutoMapper;
 using DTOs.EpisodeDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
