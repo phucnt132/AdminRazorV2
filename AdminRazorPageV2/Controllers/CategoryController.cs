@@ -1,10 +1,16 @@
-﻿using DTOs.CategoryDTOs.ResponseDTOs;
-using APIS.DTOs.AuthenticationDTOs.ResponseDto;
-using AutoMapper;
-using DTOs.MovieDTOs.ResponseDTO;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using System.Net;
 using System.Text.Json;
+using DTOs.ServiceResponseDTOs;
+using System.Text;
+using AutoMapper;
+using AdminRazorPageV2.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
+using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
+using AdminRazorPageV2.DTOs.CategoryDtos.RequestDTO;
 
 namespace AdminRazorPageV2.Controllers
 {
@@ -22,9 +28,8 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            ManagementApiUrl = "http://localhost:7113/api/Movies";
+            ManagementApiUrl = "http://localhost:44384/api/Movies";
             AuthApiUrl = "http://localhost:44388/api/Auth";
-            EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
             CategoryManagementApiUrl = "http://localhost:44386/api/Categories";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
@@ -44,7 +49,7 @@ namespace AdminRazorPageV2.Controllers
         }
 
 
-        // GET: All Episode
+        // GET: All Categories
         public async Task<IActionResult> Index()
         {
             try
@@ -58,8 +63,8 @@ namespace AdminRazorPageV2.Controllers
                 };
 
                 ServiceResponse<List<CategoryResponse>> listCategories = JsonSerializer.Deserialize<ServiceResponse<List<CategoryResponse>>>(strData, options);
-                IEnumerable<CategoryResponse> categoriesResponses = listCategories.Data;
-                return View(categoriesResponses);
+                IEnumerable<CategoryResponse> categoryResponses = listCategories.Data;
+                return View(categoryResponses);
 
             }
             catch (Exception ex)
@@ -67,5 +72,186 @@ namespace AdminRazorPageV2.Controllers
                 throw ex;
             }
         }
+
+        // GET: Category by Id
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}/id?id={id}");
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<CategoryResponse> categoryResponse = JsonSerializer.Deserialize<ServiceResponse<CategoryResponse>>(strData, options);
+
+            if (categoryResponse == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryResponse.Data);
+        }
+
+        // GET: Create Category
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddCategoryDto category)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var categoryJson = JsonSerializer.Serialize(category);
+                    var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+
+                    // Check Authorization
+                    if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
+                    HttpResponseMessage response = await _httpClient.PostAsync($"{CategoryManagementApiUrl}/Create", content);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        // Edit Category
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}/id?id={id}");
+
+            // loaded category data
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<CategoryResponse> categoryResponse = JsonSerializer.Deserialize<ServiceResponse<CategoryResponse>>(strData, options);
+
+            if (categoryResponse == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryResponse.Data);
+        }
+
+        // POST: Category/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] UpdateCategoryDto category)
+        {
+            UpdateCategoryDto afterUpdate = new UpdateCategoryDto();
+            ServiceResponse<CategoryResponse> categoryResponse;
+            try
+            {
+                afterUpdate.CategoryId = id;
+                afterUpdate.CategoryName = category.CategoryName;
+                afterUpdate.IsActive = category.IsActive;
+                var categoryJson = JsonSerializer.Serialize(afterUpdate);
+                var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                // Check Authorization
+                if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                {
+                    ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                    return View("Error");
+                }
+                HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Update", content);
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                categoryResponse = JsonSerializer.Deserialize<ServiceResponse<CategoryResponse>>(strData, options);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // Delete Category
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{CategoryManagementApiUrl}/id?id={id}");
+
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            ServiceResponse<CategoryResponse> categoryResponse = JsonSerializer.Deserialize<ServiceResponse<CategoryResponse>>(strData, options);
+
+            if (categoryResponse == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryResponse.Data);
+        }
+
+        // POST: Product/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var categoryJson = JsonSerializer.Serialize(id);
+                    var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                    // Check Authorization
+                    if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                    {
+                        ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                        return View("Error");
+                    }
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Delete?id={id}", content);
+                }
+                catch (Exception)
+                {
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

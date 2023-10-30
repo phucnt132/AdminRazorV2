@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http
-@using DTOs.CategoryDTOs.ResponseDTOs;
+﻿ @using Microsoft.AspNetCore.Http
+@using AdminRazorPageV2.DTOs.CategoryDtos.ResponseDTO;
 @model IEnumerable<CategoryResponse>;
 
 @{
@@ -13,31 +13,32 @@
             <h2>Manage <b>Categories</b></h2>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"><span>Add New Category</span></a>
+            <a class="btn btn-success; border-0;" style="background-color: cyan" data-toggle="modal"> <span>@Html.ActionLink("Add new Category", "Create")</span></a>
         </div>
+
     </div>
 
     <table id="example" class="ui celled table" style="width:100%">
-        <thead>
+    <thead>
             <tr style="text-align: center">
                 <th>Category ID</th>
                 <th>Category Name</th>
                 <th>Actions</th>
-            </tr>
-        </thead>
+        </tr>
+    </thead>
         <tbody style="text-align: center">
             @foreach (var item in Model)
             {
-                <tr>
-                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryName)</td>
+        <tr>
                     <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryId)</td>
-                    <td>
+                    <td style="text-align: center">@Html.DisplayFor(modelItem => item.CategoryName)</td>         
+            <td>
                         @Html.ActionLink("Detail", "Detail", new {  id=item.CategoryId }) |
                         @Html.ActionLink("Edit", "Edit", new {  id=item.CategoryId }) |
                         @Html.ActionLink("Delete", "Delete", new {  id=item.CategoryId })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
 </div>
