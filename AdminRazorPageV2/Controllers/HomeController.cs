@@ -80,7 +80,8 @@ namespace HighFlixAdmin.Controllers
                     {
                         HttpContext.Session.SetString("AccessToken", accessToken);
                         HttpContext.Session.SetString("RefreshToken", refreshToken);
-                        HttpContext.Session.SetString("Username", user.Username);
+                        HttpContext.Session.SetString("Username", mem.Username);
+                        HttpContext.Session.SetInt32("UserId", mem.UserId);
 
                         return View("Index");
                     }

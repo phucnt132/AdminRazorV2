@@ -1,7 +1,6 @@
 ﻿using AdminRazorPageV2.DTOs.UserDTOs.ResponseDTO;
 using APIS.DTOs.AuthenticationDTOs.ResponseDto;
 using AutoMapper;
-using DTOs.CategoryDTOs.ResponseDTOs;
 using DTOs.EpisodeDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
 using Microsoft.AspNetCore.Mvc;
