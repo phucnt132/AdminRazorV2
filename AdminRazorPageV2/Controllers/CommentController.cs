@@ -62,7 +62,7 @@ namespace AdminRazorPageV2.Controllers
             }
         }
 
-        // Delete Episode
+        // Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -70,8 +70,6 @@ namespace AdminRazorPageV2.Controllers
                 return NotFound();
             }
             HttpResponseMessage response = await _httpClient.GetAsync($"{CommentApiUrl}/id?id={id}");
-
-            // loaded episode data
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
@@ -98,8 +96,8 @@ namespace AdminRazorPageV2.Controllers
             {
                 try
                 {
-                    var episodeJson = JsonSerializer.Serialize(id);
-                    var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
+                    var commentJson = JsonSerializer.Serialize(id);
+                    var content = new StringContent(commentJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
                     if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
