@@ -2,7 +2,58 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex" style="flex-direction:column; gap:1rem; justify-content:center; align-items:center;">
+    <h1 class="text-primary">HighFlix Management Table Content</h1>
+    <div class="d-flex" style="gap:1rem;">
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/8c/36/74/8c367493a368603036f2749b2917b793.jpg" class="card-img-top" alt="Episode Management">
+            <div class="card-body">
+                <h5 class="card-title">Episode Management</h5>
+                <a asp-action="Index" asp-controller="Episode" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/736x/51/1b/c3/511bc339e092ddb9f4f42654c8d878c7.jpg" class="card-img-top" alt="Movie Management">
+            <div class="card-body">
+                <h5 class="card-title">Movie Management</h5>
+                <a asp-action="Index" asp-controller="Movie" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+        
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/f7/77/80/f777806c874a960163ebe4591eb29dd7.jpg" class="card-img-top" alt="Category Management">
+            <div class="card-body">
+                <h5 class="card-title">Category Management</h5>
+                <a asp-action="Index" asp-controller="Category" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-flex" style="gap:1rem;">
+        <div class="card" style="width: 18rem;">
+            <img src="https://img.izismile.com/img/img15/20230220/640/daily_picdump_4277_640_31.jpg" class="card-img-top" alt="User Management">
+            <div class="card-body">
+                <h5 class="card-title">User Management</h5>
+                <a asp-action="Index" asp-controller="User" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/26/b7/3d/26b73d86e9a28750c212aec76c8a6957.jpg" class="card-img-top" alt="Statistic Management">
+            <div class="card-body">
+                <h5 class="card-title">Statistic Management</h5>
+                <a asp-action="Index" asp-controller="Statistic" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+            <img src="https://i.pinimg.com/564x/5d/87/22/5d87229c5a2e65017f43d6e2558149b1.jpg" class="card-img-top" alt="Comment Management">
+            <div class="card-body">
+                <h5 class="card-title">Comment Management</h5>
+                <a asp-action="Index" asp-controller="Comment" class="btn btn-primary">Go to management</a>
+            </div>
+        </div>
+    </div>
 </div>
