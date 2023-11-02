@@ -192,7 +192,7 @@ namespace AdminRazorPageV2.Controllers
             ServiceResponse<EpisodeResponse> episodeResponse;
             try
             {
-                afterUpdate.EpisodeId = id;
+                afterUpdate.EpisodeId = episode.EpisodeId;
                 afterUpdate.EpisodeName = episode.EpisodeName;
                 afterUpdate.Description = episode.Description;
                 afterUpdate.MediaLink = episode.MediaLink;
