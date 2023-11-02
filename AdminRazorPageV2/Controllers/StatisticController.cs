@@ -24,8 +24,8 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            AuthApiUrl = "http://localhost:44388/api/Auth";
-            StatisticApiUrl = "http://localhost:44384/api/Statistic";
+            AuthApiUrl = "https://localhost:5003/apigateway/Auth";
+            StatisticApiUrl = "https://localhost:5003/apigateway/Statistic";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }

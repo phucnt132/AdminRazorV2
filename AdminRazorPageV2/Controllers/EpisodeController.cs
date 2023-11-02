@@ -28,9 +28,9 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            MovieManagementApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "http://localhost:44388/api/Auth";
-            EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
+            MovieManagementApiUrl = "https://localhost:5003/apigateway/Movies";
+            AuthApiUrl = "https://localhost:5003/apigateway/Auth";
+            EpisodeManagementApiUrl = "https://localhost:5003/apigateway/Episodes";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
@@ -192,7 +192,7 @@ namespace AdminRazorPageV2.Controllers
             ServiceResponse<EpisodeResponse> episodeResponse;
             try
             {
-                afterUpdate.EpisodeId = id;
+                afterUpdate.EpisodeId = episode.EpisodeId;
                 afterUpdate.EpisodeName = episode.EpisodeName;
                 afterUpdate.Description = episode.Description;
                 afterUpdate.MediaLink = episode.MediaLink;

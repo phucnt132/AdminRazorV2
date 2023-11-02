@@ -24,10 +24,10 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            MovieApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "http://localhost:44388/api/Auth";
-            EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
-            CategoryManagementApiUrl = "http://localhost:44386/api/Categories";
+            MovieApiUrl = "https://localhost:5003/apigateway/Movies";
+            AuthApiUrl = "https://localhost:5003/apigateway/Auth";
+            EpisodeManagementApiUrl = "https://localhost:5003/apigateway/Episodes";
+            CategoryManagementApiUrl = "https://localhost:5003/apigateway/Categories";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }

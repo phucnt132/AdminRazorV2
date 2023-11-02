@@ -60,12 +60,12 @@
                 </div>
             </div>
             <ul class="list-unstyled components mb-5">
-                <li>
-                    <a asp-controller="Home" asp-action="Index">Home</a>
-                </li>
                 @{
                     if (Context.Session.GetString("Username") != null)
                     {
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                         <li>
                             <a asp-controller="Episode" asp-action="Index">Episode Management</a>
                         </li>
