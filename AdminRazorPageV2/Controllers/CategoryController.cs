@@ -163,13 +163,13 @@ namespace AdminRazorPageV2.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] UpdateCategoryDto category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,IsActive")] UpdateCategoryDto category)
         {
             UpdateCategoryDto afterUpdate = new UpdateCategoryDto();
             ServiceResponse<CategoryResponse> categoryResponse;
             try
             {
-                afterUpdate.CategoryId = id;
+                afterUpdate.CategoryId = category.CategoryId;
                 afterUpdate.CategoryName = category.CategoryName;
                 afterUpdate.IsActive = category.IsActive;
                 var categoryJson = JsonSerializer.Serialize(afterUpdate);
