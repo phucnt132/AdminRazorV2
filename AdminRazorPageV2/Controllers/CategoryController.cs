@@ -228,13 +228,13 @@ namespace AdminRazorPageV2.Controllers
         // POST: Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int categoryId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var categoryJson = JsonSerializer.Serialize(id);
+                    var categoryJson = JsonSerializer.Serialize(categoryId);
                     var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -243,7 +243,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Delete?id={id}", content);
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Delete?id={categoryId}", content);
                 }
                 catch (Exception)
                 {
