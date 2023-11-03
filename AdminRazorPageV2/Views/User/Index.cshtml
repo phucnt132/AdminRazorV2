@@ -19,7 +19,7 @@
             <tr style="text-align: center">
                 <th>FullName</th>
                 <th>Email</th>
-                <th>Avatar</th>
+                <th>Is Active</th>
                 <th>Phone Number</th>
                 <th>Address</th>
                 <th>Role</th>
@@ -32,7 +32,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                    <td><img style="width: 120px;" src=@Html.DisplayFor(modelItem => item.Avatar)></td>
+                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                     <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                     <td>@Html.DisplayFor(modelItem => item.RoleName)</td>

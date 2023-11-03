@@ -282,13 +282,13 @@ namespace AdminRazorPageV2.Controllers
         // POST: Movie/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int movieId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var movieJson = JsonSerializer.Serialize(id);
+                    var movieJson = JsonSerializer.Serialize(movieId);
                     var content = new StringContent(movieJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -297,7 +297,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.PutAsync($"{ManagementApiUrl}/Delete?id={id}", content);
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{ManagementApiUrl}/Delete?id={movieId}", content);
                 }
                 catch (Exception)
                 {
