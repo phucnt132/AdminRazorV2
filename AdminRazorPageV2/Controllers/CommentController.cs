@@ -19,7 +19,7 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            CommentApiUrl = "http://localhost:44384/api/Comment";
+            CommentApiUrl = "https://localhost:5003/apigateway/Comment";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }

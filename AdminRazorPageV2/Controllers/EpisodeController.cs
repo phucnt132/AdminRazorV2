@@ -28,9 +28,9 @@ namespace AdminRazorPageV2.Controllers
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
-            MovieManagementApiUrl = "http://localhost:44384/api/Movies";
-            AuthApiUrl = "http://localhost:44388/api/Auth";
-            EpisodeManagementApiUrl = "http://localhost:44384/api/Episodes";
+            MovieManagementApiUrl = "https://localhost:5003/apigateway/Movies";
+            AuthApiUrl = "https://localhost:5003/apigateway/Auth";
+            EpisodeManagementApiUrl = "https://localhost:5003/apigateway/Episodes";
             _mapper = mapper;
             _contextAccessor = contextAccessor;
         }
@@ -192,7 +192,7 @@ namespace AdminRazorPageV2.Controllers
             ServiceResponse<EpisodeResponse> episodeResponse;
             try
             {
-                afterUpdate.EpisodeId = id;
+                afterUpdate.EpisodeId = episode.EpisodeId;
                 afterUpdate.EpisodeName = episode.EpisodeName;
                 afterUpdate.Description = episode.Description;
                 afterUpdate.MediaLink = episode.MediaLink;
@@ -254,13 +254,15 @@ namespace AdminRazorPageV2.Controllers
         // POST: Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [Bind("EpisodeId")] DeleteEpisodeDto episode)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var episodeJson = JsonSerializer.Serialize(id);
+                    DeleteEpisodeDto afterUpdate = new DeleteEpisodeDto();
+                    afterUpdate.EpisodeId = episode.EpisodeId;
+                    var episodeJson = JsonSerializer.Serialize(afterUpdate);
                     var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -269,7 +271,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.PutAsync($"{EpisodeManagementApiUrl}/Delete?id={id}", content);
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{EpisodeManagementApiUrl}/Delete?id={episode.EpisodeId}", content);
                 }
                 catch (Exception)
                 {
