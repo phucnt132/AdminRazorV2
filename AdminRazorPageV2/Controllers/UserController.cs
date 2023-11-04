@@ -1,6 +1,8 @@
-﻿using AdminRazorPageV2.DTOs.UserDTOs.ResponseDTO;
+﻿using AdminRazorPageV2.DTOs.UserDTOs.RequestDTO;
+using AdminRazorPageV2.DTOs.UserDTOs.ResponseDTO;
 using APIS.DTOs.AuthenticationDTOs.ResponseDto;
 using AutoMapper;
+using DTOs.CommentDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.RequestDTO;
 using DTOs.EpisodeDTOs.ResponseDTO;
 using Microsoft.AspNetCore.Mvc;
@@ -166,13 +168,15 @@ namespace AdminRazorPageV2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [Bind("UserId")]  DeleteUserRequest deleteUser)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var episodeJson = JsonSerializer.Serialize(id);
+                    DeleteUserRequest afterUpdate = new DeleteUserRequest();
+                    afterUpdate.UserId = deleteUser.UserId;
+                    var episodeJson = JsonSerializer.Serialize(afterUpdate);
                     var content = new StringContent(episodeJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -181,7 +185,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.DeleteAsync($"{AuthApiUrl}/id?id={id}");
+                    HttpResponseMessage response = await _httpClient.DeleteAsync($"{AuthApiUrl}/id?id={deleteUser.UserId}");
                 }
                 catch (Exception)
                 {

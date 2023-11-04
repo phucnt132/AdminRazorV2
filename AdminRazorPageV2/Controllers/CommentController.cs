@@ -5,6 +5,9 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using DTOs.ServiceResponseDTOs;
+using DTOs.CommentDTOs.RequestDTO;
+using AdminRazorPageV2.Models;
+using DTOs.EpisodeDTOs.RequestDTO;
 
 namespace AdminRazorPageV2.Controllers
 {
@@ -43,6 +46,13 @@ namespace AdminRazorPageV2.Controllers
         {
             try
             {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
+                // Check Authorization
+                if (_httpClient.DefaultRequestHeaders.Authorization.Parameter == null)
+                {
+                    ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
+                    return View("Error");
+                }
                 HttpResponseMessage response = await _httpClient.GetAsync(CommentApiUrl);
                 string strData = await response.Content.ReadAsStringAsync();
 
@@ -90,13 +100,15 @@ namespace AdminRazorPageV2.Controllers
         // POST: Comment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [Bind("CommentId")] DeleteCommentDto commentDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var commentJson = JsonSerializer.Serialize(id);
+                    DeleteCommentDto afterUpdate = new DeleteCommentDto();
+                    afterUpdate.CommentId = commentDto.CommentId;
+                    var commentJson = JsonSerializer.Serialize(afterUpdate);
                     var content = new StringContent(commentJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -105,7 +117,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.PutAsync($"{CommentApiUrl}/Delete?id={id}", content);
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{CommentApiUrl}/Delete?id={commentDto.CommentId}", content);
                 }
                 catch (Exception)
                 {

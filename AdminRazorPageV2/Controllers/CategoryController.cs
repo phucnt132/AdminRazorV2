@@ -163,13 +163,13 @@ namespace AdminRazorPageV2.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] UpdateCategoryDto category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,IsActive")] UpdateCategoryDto category)
         {
             UpdateCategoryDto afterUpdate = new UpdateCategoryDto();
             ServiceResponse<CategoryResponse> categoryResponse;
             try
             {
-                afterUpdate.CategoryId = id;
+                afterUpdate.CategoryId = category.CategoryId;
                 afterUpdate.CategoryName = category.CategoryName;
                 afterUpdate.IsActive = category.IsActive;
                 var categoryJson = JsonSerializer.Serialize(afterUpdate);
@@ -228,13 +228,13 @@ namespace AdminRazorPageV2.Controllers
         // POST: Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int categoryId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var categoryJson = JsonSerializer.Serialize(id);
+                    var categoryJson = JsonSerializer.Serialize(categoryId);
                     var content = new StringContent(categoryJson, Encoding.UTF8, "application/json");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetSessionValue("AccessToken"));
                     // Check Authorization
@@ -243,7 +243,7 @@ namespace AdminRazorPageV2.Controllers
                         ViewData["AuthorizationMessage"] = "You do not have permission to do this action!";
                         return View("Error");
                     }
-                    HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Delete?id={id}", content);
+                    HttpResponseMessage response = await _httpClient.PutAsync($"{CategoryManagementApiUrl}/Delete?id={categoryId}", content);
                 }
                 catch (Exception)
                 {
