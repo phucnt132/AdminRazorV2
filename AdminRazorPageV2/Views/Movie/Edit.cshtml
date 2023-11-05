@@ -61,55 +61,55 @@
                 <input type="hidden" asp-for="MovieId" />
                 <div class="form-group">
                     <label class="control-label">Movie Name</label>
-                    <input asp-for="MovieName" class="form-control" />
+                    <input asp-for="MovieName" class="form-control" required/>
                     <span asp-validation-for="MovieName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="Description" class="form-control" required/>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Movie Thumnail Image</label>
-                    <input asp-for="MovieThumnailImage" class="form-control" />
+                    <input asp-for="MovieThumnailImage" class="form-control" required/>
                     <span asp-validation-for="MovieThumnailImage" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Movie Poster</label>
-                    <input asp-for="MoviePoster" class="form-control" />
+                    <input asp-for="MoviePoster" class="form-control" required/>
                     <span asp-validation-for="MoviePoster" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Total Episodes</label>
-                    <input asp-for="TotalEpisodes" class="form-control" />
+                    <input asp-for="TotalEpisodes" class="form-control" required min="1"/>
                     <span asp-validation-for="TotalEpisodes" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Released Year</label>
-                    <input asp-for="ReleasedYear" class="form-control" />
+                    <input asp-for="ReleasedYear" class="form-control" required/>
                     <span asp-validation-for="ReleasedYear" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Alias Name</label>
-                    <input asp-for="AliasName" class="form-control" />
+                    <input asp-for="AliasName" class="form-control" required/>
                     <span asp-validation-for="AliasName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Director" class="control-label"></label>
-                    <input asp-for="Director" class="form-control" />
+                    <input asp-for="Director" class="form-control" required/>
                     <span asp-validation-for="Director" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Main Characters</label>
-                    <input asp-for="MainCharacters" class="form-control" />
+                    <input asp-for="MainCharacters" class="form-control" required/>
                     <span asp-validation-for="MainCharacters" class="text-danger"></span>
                 </div>
 
